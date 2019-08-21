@@ -1,0 +1,23 @@
+{
+  "name": "led-bulb",
+  "version": "1.0.0",
+  "description": "Testing out software to change wifibulb that is used with \"Magic Home Pro\" app",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "author": "Joseph Kalb",
+  "license": "ISC",
+  "dependencies": {
+    "@jaames/iro": "^4.5.1",
+    "electron-reload": "^1.5.0",
+    "magic-home": "^2.2.1",
+    "nedb": "^1.8.0",
+    "photonkit": "^0.1.2",
+    "tmi.js": "^1.4.5"
+  },
+  "devDependencies": {
+    "electron": "^6.0.0"
+  }
+}

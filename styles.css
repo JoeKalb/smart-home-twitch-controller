@@ -1,0 +1,315 @@
+.window{
+    background-color: rgb(230, 230, 250);
+}
+
+h4{
+    margin: 0;
+}
+
+p{
+    margin: 0px;
+}
+
+ul{
+    list-style-type: none;
+    margin-top:5px;
+}
+
+.light-li{
+    padding: 5px 5px 0px 5px;
+    border: 1px;
+    border-color: transparent;
+    border-style: solid solid solid solid;
+}
+
+.light-div{
+    background-color: rgba(44,47,51, .5);
+    color:white;
+    margin: 0px;
+    padding: 5px 5px 5px 5px;
+    position: relative;
+}
+
+.light-span{
+    font-size: 30px;
+    position: relative;
+    top:0px;
+}
+
+.light-input-editor{
+    position: absolute;
+    z-index: 2;
+    float: left;
+    color:black;
+    top:5px;
+    height: 35px;
+}
+
+.li-edit-btn{
+    position: relative;
+    z-index: 1;
+    margin-right:2px;
+}
+
+#addGroupDiv{
+    position: absolute;
+    z-index: 3;
+    background-color: rgb(230, 230, 250);
+    padding: 5px;
+    border: 2px;
+    border-style: solid;
+    border-color: #99aab5;
+    border-radius: 5px;
+    width:270px;
+}
+
+.rgb-label{
+    float:none;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+    margin-bottom: 0px;
+}
+
+.num-input{
+    width: 50px;
+}
+
+#color-picker-container{
+    display:flex; 
+    align-items: center; 
+    justify-content: center;
+    margin-top: 10px; 
+}
+
+#colorDBInputDiv{
+    margin-top:10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#rgb-display{
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#color-display-box{
+    height: 25px;
+    width: 25px;
+    margin-left: 10px;
+    border: 3px;
+    border-color: black;
+    background-color:blue; 
+}
+
+#color-btn{
+    margin-left:10px; 
+}
+
+#light-customization-heading{
+    margin: 5px;
+    margin-bottom: 10px;
+}
+
+#color-select-header{
+    text-align: center;
+}
+
+#lights-customization-page{
+    height: 98vh;
+}
+
+#light-master-buttons{
+    height:25px;
+    margin: 5px 10px;
+    position: relative;
+}
+
+#light_heading_strong{
+    position: relative;
+    bottom:0;
+}
+
+#single-color-div{
+    height: 40vh;
+}
+
+#tabel-div{
+    height:100%;
+    overflow: auto;
+}
+
+.editColorBtn{
+    margin-right:2px; 
+}
+
+.tdColorDiv{
+    width: 90%;
+    height: 20px;
+}
+
+#single-line-form-add-color{
+    position: relative;
+}
+
+#colorNameLabel{
+    position: absolute;
+    float: left;
+    margin:0px; 
+    bottom:5px;
+}
+
+#colorNameInput{
+    width:70%;
+    margin-left:40px;
+}
+
+#addColorDiv{
+    position: absolute;
+    z-index: 3;
+    background-color: rgb(230, 230, 250);
+    width: 95%;
+    padding: 5px;
+    border: 2px;
+    border-style: solid;
+    border-color: #99aab5;
+    border-radius: 5px;
+}
+
+#form_patters_inputs{
+    display: initial;
+}
+
+#addColorDisplayBox{
+    height: 30px;
+    width: 42px;
+    border: 3px;
+    margin-top:1px;
+    border-color: black;
+    background-color:blue; 
+    float:right;
+}
+
+#custom-patterns-div{
+    height: 40vh;
+    position: relative;
+    top:5%;
+}
+
+#pattern-customization-heading{
+    margin: 20px 5px 5px 5px;
+} 
+
+#addPatternFormDiv{
+    position: absolute;
+    z-index: 3;
+    background-color: rgb(230, 230, 250);
+    width: 95%;
+    padding: 5px;
+    border: 2px;
+    border-style: solid;
+    border-color: #99aab5;
+    border-radius: 5px;
+}
+
+.patterLabelClass{
+    width:150px;
+    position: absolute;
+    bottom: 0;
+}
+
+#patternNameInput{
+    width:70%;
+    margin-left: 150px;
+}
+
+#patternDelayInput{
+    width: 70%; 
+    margin-left: 150px;
+}
+
+#pattern-color-select-div{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+#colorPatternDiv{
+    width: 55px;
+    height: 45px;
+    text-align: center;
+    background-color: rgb(230, 230, 250);
+    border-style: solid;
+    border-color: rgb(71, 71,71);
+    border-radius: 5px;
+    position: relative;
+    margin: 10px 5px 0px 0px;
+}
+
+.patterColorDivClass{
+    width: 55px;
+    height: 45px;
+    text-align: center;
+    background-color: rgb(230, 230, 250);
+    border-style: solid;
+    border-color: rgb(71, 71,71);
+    border-radius: 5px;
+    position: relative;
+    margin: 10px 5px 0px 0px;
+}
+
+.deleteColorPatternClass{
+    position: absolute;
+    float: left;
+    top:10px;
+    left:20px;
+}
+
+#add-color-pattern-span{
+    position: absolute;
+    top:10px;
+    left:20px;
+}
+
+.patter-li{
+    margin: 10px 5px;
+    background-color: rgba(44,47,51, .5);
+    color:white;
+    display: flex;
+    height: 50px;
+}
+
+.strongPatternLI{
+    margin-left: 5px;
+}
+
+.pattern-div-container{
+    width: 60%;
+    display: flex;
+    margin-left: 10px;
+}
+
+.indiv-patter-color-div{
+    width: 15px;
+    height: 40px;
+    margin-top:5px;
+    margin-right: 2px;
+}
+
+.pattern-preview-btn{
+    height:25px;
+    width: 100px;
+    margin-top:15px;
+    margin-right: 5px;
+}
+
+.pattern-delete-btn{
+    height: 25px;
+    width: 25px;
+    margin-top:15px;
+    margin-right: 5px;
+}
