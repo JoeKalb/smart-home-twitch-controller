@@ -15,8 +15,34 @@ for(let nav_item of document.getElementsByClassName('nav-group-item')){
         currentPage = nav_item.getAttribute('value')
         console.log(currentPage)
         newActivePage.style.display = ""
+
+        clearAllThirdPaneDiv()
+        switch(currentPage){
+            case 'lights-page':{
+                document.getElementById('color-select-div').style.display = ''
+            }
+            case 'colors-page':{
+                document.getElementById('color-select-div').style.display = ''
+            }
+            case 'twitch-page':{
+                document.getElementById('twitchCommandLightsDiv').style.display = ''
+            }
+            case 'sound-controls-page':{
+
+            }
+            case 'settings-page':{
+                document.getElementById('twitchSettingsDiv').style.display = ''
+            }
+        }
     })
-} 
+}
+ 
+let clearAllThirdPaneDiv = () => {
+    const thirdPaneDivs = document.getElementsByClassName('third-comlumn-class')
+    for(let div of thirdPaneDivs){
+        div.style.display = 'none';
+    }
+}
 
 const testBtn = document.getElementById('testBtn')
 testBtn.addEventListener('click', () =>{
@@ -544,7 +570,7 @@ let createPatterli = (pattern) => {
     li.className = 'patter-li'
 
     const nameDiv = document.createElement('div')
-    nameDiv.style = 'display:flex; flex-direction:column;width:100px;margin-top:5px;'
+    nameDiv.className = 'nameDivPatterLi'
     const strong = document.createElement('strong')
     strong.innerText = pattern.name
     strong.className = 'strongPatternLI'

@@ -19,13 +19,13 @@
                         <span></span>
                         Lights
                     </span>
-                    <span class="nav-group-item" value='lights-customization-page'>
+                    <span class="nav-group-item" value='colors-page'>
                         <span></span>
-                        Light Customization
+                        Colors
                     </span>
-                    <span class="nav-group-item" value='twitch-controls-page'>
+                    <span class="nav-group-item" value='twitch-page'>
                         <span></span>
-                        Twitch Controls
+                        Twitch
                     </span>
                     <h5 class="nav-group-title">Sounds</h5>
                     <span class="nav-group-item" value='sound-controls-page'>
@@ -33,13 +33,9 @@
                         Sound Controls
                     </span>
                     <h5 class="nav-group-title">Settings</h5>
-                    <span class="nav-group-item" value='lights-settings-page'>
+                    <span class="nav-group-item" value='settings-page'>
                         <span></span>
                         Light Settings
-                    </span>
-                    <span class="nav-group-item" value='twitch-settings-page'>
-                        <span></span>
-                        Twitch Settings
                     </span>
                 </div>
                 <div class="pane">
@@ -76,7 +72,7 @@
                             <!-- Rendered through database -->
                         </ul>
                     </div>
-                    <div class="main-page" id="lights-customization-page" style="display: none">
+                    <div class="main-page" id="colors-page" style="display: none">
                         <div id="single-color-div">
                             <div id="light-customization-heading">
                                 <strong>Single Colors</strong>
@@ -147,7 +143,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="main-page" id="twitch-controls-page" style="display: none">
+                    <div class="main-page" id="twitch-page" style="display: none">
                         <div id="allTwitchEventsDiv">
                             <div class="twitch-events-div">
                                 <h5>Sub</h5>
@@ -166,6 +162,39 @@
                                 <input id="massGiftSubColorInput">
                             </div>
                         </div>
+                        
+                    </div>
+                    <div class="main-page" id="sound-controls-page" style="display:none;">
+                        <h5>Sound Controls</h5>
+                    </div>
+                    <div class="main-page" id="settings-page" style="display: none;">
+                        <h5>Light Settings and color settings, delete all members</h5>
+                    </div>
+                </div>
+                <div class="pane" id="third-column-pane">
+                    <div id="color-select-div" class="third-comlumn-class">
+                        <div id="color-select-header">
+                            <strong>Color Picker</strong>
+                        </div>
+                        <div id="color-picker-container"></div>
+                        <div id="colorDBInputDiv">
+                            <label for="" class="rgb-label">Colors: </label>
+                            <input list="colorsList" id="colorsListInput" title='Input for Created Colors in "Light Customization"'>
+                            <datalist id="colorsList">
+                            </datalist>
+                        </div>
+                        <div id="rgb-display">
+                            <label for="r-input" class="rgb-label">R</label>
+                            <input type="number" name="r-input" id="r-input" class="num-input">
+                            <label for="g-input" class="rgb-label">G</label>
+                            <input type="number" name="g-input" id="g-input" class="num-input">
+                            <label for="b-input" class="rgb-label">B</label>
+                            <input type="number" name="b-input" id="b-input" class="num-input">
+                            <div id="color-display-box"></div>
+                            <button id="color-btn" class="btn btn-positive"><span class="icon icon-check" style="color:white;"></span></button>
+                        </div>
+                    </div>
+                    <div class="third-comlumn-class" style="display: none" id="twitchCommandLightsDiv">
                         <div id="twitchCommandLights">
                             <div id="twitchCommandLightsHeading">
                                 <strong>Light Commands</strong>
@@ -182,36 +211,10 @@
                             </table>
                         </div>
                     </div>
-                    <div class="main-page" id="sound-controls-page" style="display:none;">
-                        <h5>Sound Controls</h5>
-                    </div>
-                    <div class="main-page" id="lights-settings-page" style="display: none">
-                        <h5>place</h5>
-                    </div>
-                    <div class="main-page" id="twitch-settings-page" style="display: none">
-                        <h5>Change Twitch Channel to Listen To</h5>
-                    </div>
-                </div>
-                <div class="pane" id="color-select-div">
-                    <div id="color-select-header">
-                        <strong>Color Picker</strong>
-                    </div>
-                    <div id="color-picker-container"></div>
-                    <div id="colorDBInputDiv">
-                        <label for="" class="rgb-label">Colors: </label>
-                        <input list="colorsList" id="colorsListInput" title='Input for Created Colors in "Light Customization"'>
-                        <datalist id="colorsList">
-                        </datalist>
-                    </div>
-                    <div id="rgb-display">
-                        <label for="r-input" class="rgb-label">R</label>
-                        <input type="number" name="r-input" id="r-input" class="num-input">
-                        <label for="g-input" class="rgb-label">G</label>
-                        <input type="number" name="g-input" id="g-input" class="num-input">
-                        <label for="b-input" class="rgb-label">B</label>
-                        <input type="number" name="b-input" id="b-input" class="num-input">
-                        <div id="color-display-box"></div>
-                        <button id="color-btn" class="btn btn-positive"><span class="icon icon-check" style="color:white;"></span></button>
+                    <div class="third-comlumn-class" style="display: none;" id="twitchSettingsDiv">
+                        <div>
+                            <strong>Twitch Settings, white list users</strong>
+                        </div>
                     </div>
                 </div>
             </div>
