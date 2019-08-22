@@ -89,3 +89,5 @@ typings/
 
 # Database Files
 .db
+
+.db~
