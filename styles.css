@@ -15,6 +15,19 @@ ul{
     margin-top:5px;
 }
 
+#nav-light-selections-div{
+    display: flex;
+    flex-direction: column;
+    padding-left: 5px;
+    border-bottom-width: 1px;
+    border-bottom-color: #99aab5;
+    border-bottom-style: solid;
+}
+
+#nav-light-selections-div label{
+    margin: 5px 0 0 0;
+}
+
 .light-li{
     padding: 5px 5px 0px 5px;
     border: 1px;
@@ -303,7 +316,7 @@ ul{
 .nameDivPatterLi{
     display:flex; 
     flex-direction:column;
-    width:100px;
+    width:125px;
     margin-top:5px;
     margin-right:5px;
 }
@@ -320,4 +333,21 @@ ul{
     width: 25px;
     margin-top:15px;
     margin-right: 5px;
+}
+
+.twitchFormDiv{
+    display: flex;
+    margin:5px; 
+}
+
+.twitchFormDiv label{
+    width:200px;
+}
+
+.twitchFormDiv input{
+    width: 100%;
+}
+
+.twitchFormDiv button{
+    margin:0px 0px 0px 5px; 
 }

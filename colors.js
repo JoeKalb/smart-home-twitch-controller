@@ -90,8 +90,9 @@ colorSetBtn.addEventListener('click', () => {
     switch(currentPage){
         case 'lights-page':{
             setAllColorWithArr(lightsToChange, r, g, b)
+            break;
         }
-        case 'lights-customization-page':{
+        case 'colors-page':{
             if(addColorDivOpen){
                 const colorNameInput = document.getElementById('colorNameInput')
                 const val = colorNameInput.value.trim()
@@ -101,6 +102,7 @@ colorSetBtn.addEventListener('click', () => {
                     submitColorAction(val, colorPicker.color.rgb, editID)
                 console.log(r, g, b)
             }
+            break;
         }
     }
 })

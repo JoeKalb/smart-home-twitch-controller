@@ -21,22 +21,28 @@ for(let nav_item of document.getElementsByClassName('nav-group-item')){
             case 'lights-page':{
                 document.getElementById('color-select-div').style.display = ''
             }
+            break;
             case 'colors-page':{
                 document.getElementById('color-select-div').style.display = ''
             }
+            break;
             case 'twitch-page':{
                 document.getElementById('twitchCommandLightsDiv').style.display = ''
             }
+            break;
             case 'sound-controls-page':{
-
+                document.getElementById('soundsAddDiv').style.display = ''
             }
+            break;
             case 'settings-page':{
                 document.getElementById('twitchSettingsDiv').style.display = ''
             }
+            break;
+            default:
         }
     })
 }
- 
+
 let clearAllThirdPaneDiv = () => {
     const thirdPaneDivs = document.getElementsByClassName('third-comlumn-class')
     for(let div of thirdPaneDivs){
@@ -54,6 +60,7 @@ let createLightDivs = () => {
     lightDB.forEach(light => {
         const li = document.createElement('li')
         li.className = 'list-group-item light-li'
+        li.draggable = true;
 
         const span = document.createElement('span')
         span.className = 'icon icon-lamp pull-left media-object light-span'
@@ -106,13 +113,7 @@ let createLightDivs = () => {
         span2.className = "icon icon-cancel"
         span2.style = 'color:white;'
 
-        deleteBtn.addEventListener('click', () => {
-            db.lights.remove({ _id:light._id}, {}, (err, numRemoved) => {
-                console.log(numRemoved)
-            })
-
-            li.remove() 
-        })
+        
 
         // connect all elements
         editBtn.appendChild(spanBtn)
@@ -125,12 +126,49 @@ let createLightDivs = () => {
         newLightDiv.appendChild(p)
         indiv_light_ul.appendChild(li)
 
-        li.addEventListener('click', () => {
-            resetAllLightBorders()
-            li.style.borderColor = 'rgb(122, 199, 240)'
-            lightsToChange = [light.address]
+        const navLightSeclectDiv = document.getElementById('nav-light-selections-div')
+        const newNavLabel = document.createElement('label')
+        newNavLabel.style.position = 'relative'
+        newNavLabel.style.paddingLeft = '2px'
+        const newCheckBox = document.createElement('input')
+        newCheckBox.type = 'checkbox'
+        newCheckBox.value = light.address
+        newCheckBox.checked = true;
+        newCheckBox.className = 'lightChangeCheckBoxClass'
+        newNavLabel.appendChild(newCheckBox)
+        const newSpan = document.createElement('span')
+        newSpan.innerText = light.name
+        newSpan.style.position = 'absolute'
+        newSpan.style.top = 0;
+        newNavLabel.appendChild(newSpan)
+
+        newCheckBox.addEventListener('click', () => {
+            updateLightsToChange()
+            console.log(lightsToChange)
         })
+
+        navLightSeclectDiv.appendChild(newNavLabel)
+
+        deleteBtn.addEventListener('click', () => {
+            db.lights.remove({ _id:light._id}, {}, (err, numRemoved) => {
+                console.log(numRemoved)
+            })
+
+            li.remove() 
+            newNavLabel.remove()
+        })
+
+        lightsToChange = [...lightsToChange, light.address]
     })
+}
+
+let updateLightsToChange = () => {
+    const lightChangeCheckBoxClass = document.getElementsByClassName('lightChangeCheckBoxClass')
+    lightsToChange = []
+    for(let box of lightChangeCheckBoxClass){
+        if(box.checked === true)
+            lightsToChange = [...lightsToChange, box.value]
+    }
 }
 
 const group_light_div = document.getElementById('group-light-div')
@@ -485,11 +523,11 @@ let makeNewColorRow = (colorDoc) => {
     deleteBtn.innerText = 'X'
     deleteBtn.title = `Delete Color ${colorDoc.name}`
 
-    deleteBtn.addEventListener('click', () => {
+    deleteBtn.addEventListener('click', () => { 
         db.colors.remove({ _id:colorDoc._id}, (err, numRemoved) => {
             if(numRemoved === 1){
                 newTableRow.remove()
-                const optionToDelete = document.getElementById(colorDoc._id)
+                const optionToDelete = document.getElementById(`Color Option: ${newDoc._id}`)
                 optionToDelete.remove()
             }
         })
@@ -499,7 +537,7 @@ let makeNewColorRow = (colorDoc) => {
     tdButtons.appendChild(deleteBtn)
 
     const colorTableBody = document.getElementById('colorTableBody')
-    newTableRow.value = `Tabel Row: ${colorDoc._id}`
+    newTableRow.value = `Tabel Row: ${colorDoc._id}` 
     
     newTableRow.appendChild(tdName)
     newTableRow.appendChild(tdColor)
@@ -707,4 +745,56 @@ cancelPatterBtn.addEventListener('click', e => {
     const addPatternFormDiv = document.getElementById('addPatternFormDiv')
     addPatternFormDiv.style = 'display:none'
     console.log('cancel')
+})
+
+const twitchEventTypeSelect = document.getElementById('twitchEventTypeSelect')
+twitchEventTypeSelect.addEventListener('click', () => {
+    const twitchAmountNumberLabel = document.getElementById('twitchAmountNumberLabel')
+    switch(twitchEventTypeSelect.value){
+        case'sub':{
+            twitchAmountNumberLabel.innerText = 'Months'
+            break;
+        }
+        case'gift':{
+            twitchAmountNumberLabel.innerText = 'Months'
+            break;
+        }
+        case 'mass gift':{
+            twitchAmountNumberLabel.innerText = 'Number of Subs'
+            break;
+        }
+        case 'bits':{
+            twitchAmountNumberLabel.innerText = 'Amount'
+            break;
+        }
+        case 'host':{
+            twitchAmountNumberLabel.innerText = 'Viewers'
+            break;
+        }
+        case 'raid':{
+            twitchAmountNumberLabel.innerText = 'Viewers'
+            break;
+        }
+        default:
+    }
+})
+
+const twitchEventsSubmitBtn = document.getElementById('twitchEventsSubmitBtn')
+twitchEventsSubmitBtn.addEventListener('click', e => {
+    e.preventDefault()
+
+    const twitchEventTypeSelect = document.getElementById('twitchEventTypeSelect')
+    const twitchAmountNumberInput = document.getElementById('twitchAmountNumberInput')
+    const twitchEventLightSelect = document.getElementById('twitchEventLightSelect')
+    const twitchEventsColorAndPatternSelect = document.getElementById('twitchEventsColorAndPatternSelect')
+})
+
+const twitchEventsCancelBtn = document.getElementById('twitchEventsCancelBtn')
+twitchEventsCancelBtn.addEventListener('click', e => {
+    e.preventDefault()
+
+    document.getElementById('twitchEventTypeSelect').value = ''
+    document.getElementById('twitchAmountNumberInput').value = ''
+    document.getElementById('twitchEventLightSelect').value = ''
+    document.getElementById('twitchEventsColorAndPatternSelect').value = ''
 })

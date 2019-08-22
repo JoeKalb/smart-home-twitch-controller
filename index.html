@@ -14,6 +14,10 @@
         <div class="window-content">
             <div class="pane-group">
                 <div class="nav-group">
+                    <h5 class="nav-group-title" title="Select Which Lights Should Be Affected"><span class="icon icon-lamp"></span></h5>
+                    <div id="nav-light-selections-div">
+                        <!-- Rendered By The Database -->
+                    </div>
                     <h5 class="nav-group-title">Light Controls</h5>
                     <span class="nav-group-item active" value='lights-page'>
                         <span></span>
@@ -35,7 +39,7 @@
                     <h5 class="nav-group-title">Settings</h5>
                     <span class="nav-group-item" value='settings-page'>
                         <span></span>
-                        Light Settings
+                        Settings
                     </span>
                 </div>
                 <div class="pane">
@@ -146,23 +150,61 @@
                     <div class="main-page" id="twitch-page" style="display: none">
                         <div id="allTwitchEventsDiv">
                             <div class="twitch-events-div">
-                                <h5>Sub</h5>
-                                <input id="subColorInput">
-                            </div>
-                            <div class="twitch-events-div">
-                                <h5>Resub</h5>
-                                <input id="resubColorInput">
-                            </div>
-                            <div class="twitch-events-div">
-                                <h5>Gift Sub</h5>
-                                <input id="giftSubColorInput">
-                            </div>
-                            <div class="twitch-events-div">
-                                <h5>Mass Gift Sub</h5>
-                                <input id="massGiftSubColorInput">
+                                <form>
+                                    <div id="twitchEventsTypeDiv" class="twitchFormDiv">
+                                        <label for="twitchEventTypeSelect">Twitch Event</label>
+                                        <select class="form-control" id="twitchEventTypeSelect">
+                                            <option class="twitchEventOptions" value="sub">Sub</option>
+                                            <option class="twitchEventOptions" value="gift">Gift Sub</option>
+                                            <option class="twitchEventOptions" value="mass gift">Mass Gift Sub</option>
+                                            <option class="twitchEventOptions" value="bits">Bits</option>
+                                            <option class="twitchEventOptions" value="host">Host</option>
+                                            <option class="twitchEventOptions" value="raid">Raid</option>
+                                        </select>
+                                    </div>
+                                    <div class="twitchFormDiv">
+                                        <label for="" id="twitchAmountNumberLabel">Months</label>
+                                        <input type="number" id="twitchAmountNumberInput">
+                                    </div>
+                                    <div class="twitchFormDiv">
+                                        <label for="">Color Flash or Pattern</label>
+                                        <select class="form-control" id="twitchEventsColorAndPatternSelect">
+                                            <!-- Options will render from Database, Both colors and patterns -->
+                                        </select>
+                                    </div>
+                                    <div class="form-actions twitchFormDiv" style="flex-direction: row-reverse;">
+                                        <button id="twitchEventsCancelBtn" class="btn btn-form btn-negative" style="margin-right: 0;">Cancel</button>
+                                        <button id="twitchEventsSubmitBtn" class="btn btn-form btn-primary" >Submit</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                        
+                        <div id="twitchEventsTableDiv">
+                            <div id="tabel-heading">
+                                <Strong>All Saved Events</Strong>
+                            </div>
+                            <table id="twitchEventsTable">
+                                <thead>
+                                    <th>Event</th>
+                                    <th title="Greater than or equal to this amount.">Amount</th>
+                                    <th>Light Group</th>
+                                    <th>Color or Pattern</th>
+                                    <th>Controls</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Sub</td>
+                                        <td title="Months">10</td>
+                                        <td>Office Lights</td>
+                                        <td>Pattern Name</td>
+                                        <td>
+                                            <button class="btn btn-negative btn-mini" title="Delete Event">X</button>
+                                        </td>
+                                    </tr>
+                                    <!-- Will Render From Database -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="main-page" id="sound-controls-page" style="display:none;">
                         <h5>Sound Controls</h5>
@@ -194,7 +236,7 @@
                             <button id="color-btn" class="btn btn-positive"><span class="icon icon-check" style="color:white;"></span></button>
                         </div>
                     </div>
-                    <div class="third-comlumn-class" style="display: none" id="twitchCommandLightsDiv">
+                    <div class="third-comlumn-class" style="display: none;" id="twitchCommandLightsDiv">
                         <div id="twitchCommandLights">
                             <div id="twitchCommandLightsHeading">
                                 <strong>Light Commands</strong>
@@ -211,6 +253,9 @@
                             </table>
                         </div>
                     </div>
+                    <div class="third-comlumn-class" style="display: none;" id="soundsAddDiv">
+                        <strong>Add Sound Items</strong>
+                    </div>
                     <div class="third-comlumn-class" style="display: none;" id="twitchSettingsDiv">
                         <div>
                             <strong>Twitch Settings, white list users</strong>
@@ -220,6 +265,9 @@
             </div>
         </div>
     </div>
+    <script>
+        window.ELECTRON_DISABLE_SECURITY_WARNINGS
+    </script>
     <script src="colors.js"></script>
     <script src="lights.js"></script>
     <script src="lightGroups.js"></script>
