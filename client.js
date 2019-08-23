@@ -6,8 +6,7 @@ const opts = {
         password: 'oauth:4l1rocvdx1cdutdeu28qlis1sesg74'
       },
       channels: [
-        'thabuttress',
-        'mopgarden'
+        'thabuttress'
       ]
 };
 
@@ -18,12 +17,12 @@ client.on('disconnected', onDisconnectedHandler)
 
 client.connect()
 
-//client.on('cheer', onCheerHandler)
-//client.on('message', onMessageHandler)
-//client.on('subscription', onSubHandler)
+client.on('cheer', onCheerHandler)
+client.on('message', onMessageHandler)
+client.on('subscription', onSubHandler)
 client.on('subgift', onSubGiftHandler)
 client.on('submysterygift', onSubMysteryGiftHandler)
-//client.on('resub', onResubHandler)
+client.on('resub', onResubHandler)
 
 function onCheerHandler(channel, userstate, message){
     console.log(channel)
@@ -33,7 +32,7 @@ function onCheerHandler(channel, userstate, message){
 }
 
 function onMessageHandler(channel, userstate, message, self){
-    console.log(message)
+    //console.log(message)
 }
 
 function onSubHandler(channel, username, method, message, userstate){
@@ -49,11 +48,11 @@ function onSubHandler(channel, username, method, message, userstate){
 }
 
 function onSubGiftHandler(channel, username, streakMonths, recipient, methods, userstate){
-    //console.log(channel)
-    //console.log(username)
-    //console.log(streakMonths)
-    //console.log(recipient)
-    //console.log(methods)
+    console.log(channel)
+    console.log(username)
+    console.log(streakMonths)
+    console.log(recipient)
+    console.log(methods)
     console.log(userstate)
     const info = {
         type:'giftsub'
@@ -62,10 +61,10 @@ function onSubGiftHandler(channel, username, streakMonths, recipient, methods, u
 }
 
 function onSubMysteryGiftHandler(channel, username, numbOfSubs, methods, userstate){
-    //console.log(channel)
-    //console.log(username)
+    console.log(channel)
+    console.log(username)
     console.log(numbOfSubs)
-    //console.log(methods)
+    console.log(methods)
     console.log(userstate)
     const info = {
         type:'mysterygift',
