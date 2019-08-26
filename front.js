@@ -588,8 +588,6 @@ twitchNavSpan.addEventListener('click', () => {
     twitchEventsColorAndPatternSelect
         .appendChild(document.createElement('option'))
 
-    const singleColorOnlyDiv = document.getElementById('singleColorOnlyDiv')
-
     db.colors.find({}, (err, colors) => {
         if(colors.length > 0){
             const colorHeading = document.createElement('option')
@@ -679,18 +677,24 @@ twitchEventsSubmitBtn.addEventListener('click', e => {
     const twitchEventTypeSelect = document.getElementById('twitchEventTypeSelect')
     const event = twitchEventTypeSelect.value.trim()
     const twitchAmountNumberInput = document.getElementById('twitchAmountNumberInput')
-    const amount = twitchAmountNumberInput.value
+    const amount = parseInt(twitchAmountNumberInput.value.toString())
     const twitchEventsColorAndPatternSelect = document.getElementById('twitchEventsColorAndPatternSelect')
     const colorSwitch = twitchEventsColorAndPatternSelect.value.split(' ')
-    console.log(colorSwitch[0], colorSwitch[2])
+
+    console.log(amount)
 
     const newEvent = {
         event,
         amount,
         type:colorSwitch[0],
         type_id:colorSwitch[2],
-        
+        delay:(colorSwitch[0] === 'Color')
+            ? parseInt(document.getElementById('twitchColorChangeSingleInput').value):0, 
     }
+
+    db.twitchEvents.insert(newEvent, (err, newDB) => {
+        console.log(newDB)
+    })
 })
 
 const twitchEventsCancelBtn = document.getElementById('twitchEventsCancelBtn')
