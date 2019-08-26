@@ -3,10 +3,9 @@ const path = require('path')
 
 const filePath = {
     dbPathLights:path.join('./database/lights.db'),
-    dbPathLightGroups:path.join('./database/lightGroups.db'),
     dbPathColors:path.join('./database/colors.db'),
-    dbPathPatterns:path.join('./database/patters.db'),
-    dbPathTwitch:path.join('./database/twitch.db'),
+    dbPathPatterns:path.join('./database/patterns.db'),
+    dbPathTwitchEvents:path.join('./database/twitchEvents.db'),
     dbPathTwitchCommands:path.join('./database/twitchCommands.db')
 }
 
@@ -25,19 +24,6 @@ db.lights = new Datastore({
     }
 })
 
-db.lightGroups = new Datastore({
-    filename:filePath.dbPathLightGroups,
-    autoload:true,
-    onload: err => {
-        if(err){
-            console.log(`Error while loading the db: ${err}`)
-        }
-        db.lightGroups.find({}, (err, docs) => {
-            return docs
-        })
-    }
-})
-
 db.colors = new Datastore({
     filename:filePath.dbPathColors,
     autoload:true,
@@ -45,33 +31,33 @@ db.colors = new Datastore({
         if(err){
             console.log(`Error while loading the db: ${err}`)
         }
-        db.lightGroups.find({}, (err, docs) => {
+        db.colors.find({}, (err, docs) => {
             return docs
         })
     }
 })
  
-db.patters = new Datastore({
+db.patterns = new Datastore({
     filename:filePath.dbPathPatterns,
     autoload:true,
     onload: err => {
         if(err){
             console.log(`Error while loading the db: ${err}`)
         }
-        db.patters.find({}, (err, docs) => {
+        db.patterns.find({}, (err, docs) => {
             return docs
         })
     }
-})
+}) 
 
-db.twitch = new Datastore({
-    filename:filePath.dbPathTwitch,
+db.twitchEvents = new Datastore({
+    filename:filePath.dbPathTwitchEvents,
     autoload:true,
     onload: err => {
         if(err){
             console.log(`Error while loading the db: ${err}`)
         }
-        db.twitch.find({}, (err, docs) => {
+        db.twitchEvents.find({}, (err, docs) => {
             return docs
         })
     }
@@ -84,7 +70,7 @@ db.twitchCommands = new Datastore({
         if(err){
             console.log(`Error while loading the db: ${err}`)
         }
-        db.twitch.find({}, (err, docs) => {
+        db.twitchCommands.find({}, (err, docs) => {
             return docs
         })
     }

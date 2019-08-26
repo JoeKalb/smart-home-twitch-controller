@@ -27,7 +27,7 @@
                         <span></span>
                         Colors
                     </span>
-                    <span class="nav-group-item" value='twitch-page'>
+                    <span class="nav-group-item" value='twitch-page' id="twitchNavSpan">
                         <span></span>
                         Twitch
                     </span>
@@ -54,25 +54,6 @@
                                 <button id="refreshLightsBtn" class="btn btn-default pull-right" title="Search For Other Lights"><span class="icon icon-arrows-ccw"></span></button>
                             </li>
 
-                            <!-- Rendered through database -->
-                        </ul>
-                        <div id="addGroupDiv" style="display: none">
-                            <form id="addGroupForm">
-                                <div class="labelDiv form-group" id="form_group_items">
-                                    <label>Group Name</label>
-                                    <input id="groupNameInput" type="text" class="form-control" placeholder="Name New Light Group">
-                                </div>
-                                <div class="form-actions">
-                                    <button id="submitGroupBtn" type="submit" class="btn btn-form btn-positive">Submit</button>
-                                    <button id="cancelGroupBtn" type="submit" class="btn btn-form btn-negative">Cancel</button>
-                                </div>
-                            </form>
-                        </div>
-                        <ul id="group-light-div" class="list-group">
-                            <li class="list-group-header">
-                                <strong style="padding-top:15px;">Light Groups</strong>
-                                <button id="addGroupBtn" class="btn btn-default pull-right" title="Add New Group"><span class="icon icon-plus"></span></button>
-                            </li>
                             <!-- Rendered through database -->
                         </ul>
                     </div>
@@ -113,12 +94,12 @@
                         </div>
                         <div id="custom-patterns-div">
                             <div id="pattern-customization-heading" id="list-group-header">
-                                <strong>Custom Patters</strong>
+                                <strong>Custom Patterns</strong>
                                 <button id="addPatternBtn" class="btn btn-default pull-right" title="Add New Light Pattern"><span class="icon icon-plus"></span></button>
                             </div>
                             <div id='addPatternFormDiv' style="display: none;">
                                 <form id="addPatternForm">
-                                    <div class="labelDiv form-group" id="form_patters_inputs">
+                                    <div class="labelDiv form-group" id="form_patterns_inputs">
                                         <div style="display: flex; position: relative;">
                                             <label class="patterLabelClass">Pattern Name</label>
                                             <input id="patternNameInput" type="text" class="form-control" placeholder="Name New Color Pattern">
@@ -141,7 +122,7 @@
                                 </form>
                             </div>
                             <div id="custom-patterns-ul-div">
-                                <ul id="custom-patters-ul" class="list-group">
+                                <ul id="custom-patterns-ul" class="list-group">
                                     <!-- Will Render Items From Database -->
                                 </ul>
                             </div>
@@ -164,13 +145,17 @@
                                     </div>
                                     <div class="twitchFormDiv">
                                         <label for="" id="twitchAmountNumberLabel">Months</label>
-                                        <input type="number" id="twitchAmountNumberInput">
+                                        <input type="number" id="twitchAmountNumberInput" style="padding-left: 10px;">
                                     </div>
                                     <div class="twitchFormDiv">
                                         <label for="">Color Flash or Pattern</label>
                                         <select class="form-control" id="twitchEventsColorAndPatternSelect">
                                             <!-- Options will render from Database, Both colors and patterns -->
                                         </select>
+                                    </div>
+                                    <div class="twitchFormDiv" id="singleColorOnlyDiv" style="display:none;">
+                                        <label for="">Duration (Seconds)</label>
+                                        <input type="number" id="twitchColorChangeSingleInput" style="padding-left: 10px;">
                                     </div>
                                     <div class="form-actions twitchFormDiv" style="flex-direction: row-reverse;">
                                         <button id="twitchEventsCancelBtn" class="btn btn-form btn-negative" style="margin-right: 0;">Cancel</button>
@@ -187,7 +172,6 @@
                                 <thead>
                                     <th>Event</th>
                                     <th title="Greater than or equal to this amount.">Amount</th>
-                                    <th>Light Group</th>
                                     <th>Color or Pattern</th>
                                     <th>Controls</th>
                                 </thead>
@@ -195,7 +179,6 @@
                                     <tr>
                                         <td>Sub</td>
                                         <td title="Months">10</td>
-                                        <td>Office Lights</td>
                                         <td>Pattern Name</td>
                                         <td>
                                             <button class="btn btn-negative btn-mini" title="Delete Event">X</button>
@@ -270,7 +253,6 @@
     </script>
     <script src="colors.js"></script>
     <script src="lights.js"></script>
-    <script src="lightGroups.js"></script>
     <script src="client.js"></script>
     <script src="front.js"></script>
 </body>

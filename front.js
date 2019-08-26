@@ -82,30 +82,6 @@ let createLightDivs = () => {
         spanBtn.className = "icon icon-pencil"
         spanBtn.style = 'color:black;'
 
-        editBtn.addEventListener('click', () => {
-            console.log(light._id)
-            const input = document.createElement('input')
-            input.placeholder = 'Change Light Name'
-            input.className = 'light-input-editor'
-            newLightDiv.appendChild(input)
-
-            input.addEventListener('keypress', e => {
-                const key = e.which || e.keyCode
-                if(key === 13){
-                    const val = input.value.trim()
-                    if(val !== ''){
-                        title.innerText = `Name: ${val}`
-
-                        db.lights.update({_id:light._id}, { $set:{name:val}}, async(err, newDoc)=> {
-                            console.log(newDoc)
-                        })
-                    }
-
-                    input.remove()
-                }
-            })
-        })
-
         const deleteBtn = document.createElement('button')
         deleteBtn.className = 'btn btn-negative li-delete-btn pull-right'
         deleteBtn.title = "Delete Light Group"
@@ -149,6 +125,31 @@ let createLightDivs = () => {
 
         navLightSeclectDiv.appendChild(newNavLabel)
 
+        editBtn.addEventListener('click', () => {
+            console.log(light._id)
+            const input = document.createElement('input')
+            input.placeholder = 'Change Light Name'
+            input.className = 'light-input-editor'
+            newLightDiv.appendChild(input)
+
+            input.addEventListener('keypress', e => {
+                const key = e.which || e.keyCode
+                if(key === 13){
+                    const val = input.value.trim()
+                    if(val !== ''){
+                        title.innerText = `Name: ${val}`
+                        newSpan.innerText = val
+
+                        db.lights.update({_id:light._id}, { $set:{name:val}}, async(err, newDoc)=> {
+                            console.log(newDoc)
+                        })
+                    }
+
+                    input.remove()
+                }
+            })
+        })
+
         deleteBtn.addEventListener('click', () => {
             db.lights.remove({ _id:light._id}, {}, (err, numRemoved) => {
                 console.log(numRemoved)
@@ -169,97 +170,6 @@ let updateLightsToChange = () => {
         if(box.checked === true)
             lightsToChange = [...lightsToChange, box.value]
     }
-}
-
-const group_light_div = document.getElementById('group-light-div')
-let createGroupDivs = () => {
-    lightGroupDB.forEach(group => {
-        makeLightGroupLI(group)
-    })
-}
-
-let makeLightGroupLI = (group) => {
-    const li = document.createElement('li')
-    li.className = 'list-group-item light-li'
-    
-    const span = document.createElement('span')
-    span.className = 'icon icon-lamp pull-left media-object light-span'
-    span.style = 'color:grey;'
-
-    const newLightDiv = document.createElement('div')
-    newLightDiv.className = 'light-div media-body'
-
-    const title = document.createElement('strong')
-    title.innerText = `Name: ${group.name}`
-
-    const p = document.createElement('p')
-    p.innerText = `IPs: ${group.addresses.map(ip => {
-        const arr = ip.split('.')
-        return arr[arr.length - 1]
-    })}`
-
-    const editBtn = document.createElement('button')
-    editBtn.className = "btn btn-default li-edit-btn pull-right";
-    editBtn.title = "Edit Light Name"
-    const spanBtn = document.createElement('span')
-    spanBtn.className = "icon icon-pencil"
-    spanBtn.style = 'color:black;'
-
-    editBtn.addEventListener('click', () => {
-        console.log(group._id)
-        const input = document.createElement('input')
-        input.placeholder = 'Change Light Name'
-        input.className = 'light-input-editor'
-        newLightDiv.appendChild(input)
-
-        input.addEventListener('keypress', e => {
-            const key = e.which || e.keyCode
-            if(key === 13){
-                const val = input.value.trim()
-                if(val !== ''){
-                    title.innerText = `Name: ${val}`
-
-                    db.lightGroups.update({_id:group._id}, { $set:{name:val}}, async(err, newDoc)=> {
-                        console.log(newDoc)
-                    })
-                }
-
-                input.remove()
-            }
-        })
-    })
-
-    const deleteBtn = document.createElement('button')
-    deleteBtn.className = 'btn btn-negative li-delete-btn pull-right'
-    deleteBtn.title = "Delete Light Group"
-    const span2 = document.createElement('span')
-    span2.className = "icon icon-cancel"
-    span2.style = 'color:white;'
-
-    deleteBtn.addEventListener('click', () => {
-        db.lightGroups.remove({ _id:group._id}, {}, (err, numRemoved) => {
-            console.log(numRemoved)
-        })
-
-        li.remove() 
-    })
-
-    // create element
-    editBtn.appendChild(spanBtn)
-    deleteBtn.appendChild(span2)
-    newLightDiv.appendChild(deleteBtn)
-    newLightDiv.appendChild(editBtn)
-    li.appendChild(span)
-    li.appendChild(newLightDiv)
-    newLightDiv.appendChild(title)
-    newLightDiv.appendChild(p)
-    group_light_div.appendChild(li)
-
-    li.addEventListener('click', () => {
-        resetAllLightBorders()
-        li.style.borderColor = 'rgb(122, 199, 240)'
-        lightsToChange = group.addresses
-    })
 }
 
 function resetAllLightBorders() {
@@ -296,87 +206,6 @@ function removeAllChildren(html_id){
     while(ul.firstChild)
         ul.removeChild(ul.firstChild)
 }
-
-const addGroupBtn = document.getElementById('addGroupBtn')
-const addGroupDiv = document.getElementById('addGroupDiv')
-let addGroupOpen = false;
-addGroupBtn.addEventListener('click', () => {
-    if(addGroupOpen){
-        addGroupOpen = false;
-        addGroupDiv.style = "display:none;"
-    }
-    else{
-        addGroupOpen = true;
-        addGroupDiv.style = "display:relative"
-    
-
-        const form_group_items = document.getElementById('form_group_items')
-        const checkBoxes = form_group_items.getElementsByClassName('checkbox-lights')
-        if(checkBoxes.length === 0){
-            db.lights.find({}, (err, docs) => {
-                docs.forEach(light => {
-                    const div = document.createElement('div')
-                    div.className = 'checkbox'
-    
-                    const label = document.createElement('label')
-                    const input = document.createElement('input')
-                    input.type = "checkbox"
-                    input.style = "float:left;"
-                    input.value = light.address
-                    input.className = "checkbox-lights"
-                    
-                    const span = document.createElement('span')
-                    span.innerText = light.name;
-    
-                    div.appendChild(label)
-                    label.appendChild(input)
-                    label.appendChild(span)
-                    form_group_items.appendChild(div)
-                })
-            })
-        }
-    }
-})
-
-const submitGroupBtn = document.getElementById('submitGroupBtn')
-submitGroupBtn.addEventListener('click', e => {
-    e.preventDefault()
-
-    const groupNameInput = document.getElementById('groupNameInput')
-    let name = groupNameInput.value.trim() || `Light Group`;
-
-    let addresses = []
-
-    const checkBoxes = form_group_items.getElementsByClassName('checkbox-lights')
-    for(let check of checkBoxes){
-        if(check.checked)
-            addresses = [...addresses, check.value]
-    }
-
-    if(addresses.length > 0){
-        const newGroup = {
-            name,
-            addresses
-        }
-        
-        db.lightGroups.insert(newGroup, async(err, newDoc) => {
-            lightGroupDB = await [...lightGroupDB, newDoc]
-
-            makeLightGroupLI(newDoc)
-        })
-    }
-    addGroupOpen = false
-    addGroupDiv.style = "display:none;"
-})
-
-const cancelGroupBtn = document.getElementById('cancelGroupBtn')
-cancelGroupBtn.addEventListener('click', e => {
-    e.preventDefault()
-    const groupNameInput = document.getElementById('groupNameInput')
-    groupNameInput.value = ''
-    addGroupOpen = false;
-    addGroupDiv.style = "display:none;"
-})
 
 const addColorDiv = document.getElementById('addColorDiv')
 const addColorBtn = document.getElementById('addColorBtn')
@@ -527,7 +356,7 @@ let makeNewColorRow = (colorDoc) => {
         db.colors.remove({ _id:colorDoc._id}, (err, numRemoved) => {
             if(numRemoved === 1){
                 newTableRow.remove()
-                const optionToDelete = document.getElementById(`Color Option: ${newDoc._id}`)
+                const optionToDelete = document.getElementById(`Color Option: ${colorDoc._id}`)
                 optionToDelete.remove()
             }
         })
@@ -596,13 +425,13 @@ let isMaxColorPatterns = () => {
     return currentPatterns.length < 16;
 }
 
-db.patters.find({}, (err, patterns) => {
+db.patterns.find({}, (err, patterns) => {
     patterns.forEach(pattern => {
         createPatterli(pattern)
     })
 })
 
-const customPattersUL = document.getElementById('custom-patters-ul')
+const customPatternsUL = document.getElementById('custom-patterns-ul')
 let createPatterli = (pattern) => {
     const li = document.createElement('li')
     li.className = 'patter-li'
@@ -651,7 +480,7 @@ let createPatterli = (pattern) => {
     li.appendChild(lightPatterDivLI)
     li.appendChild(previewBtn)
     li.appendChild(deleteBtn)
-    customPattersUL.appendChild(li)
+    customPatternsUL.appendChild(li)
 }
 
 const submitPatterBtn = document.getElementById('submitPatterBtn')
@@ -684,7 +513,7 @@ submitPatterBtn.addEventListener('click', e => {
             colors
         }
 
-        db.patters.insert(doc, (err, newDoc) => {
+        db.patterns.insert(doc, (err, newDoc) => {
             console.log(newDoc)
             createPatterli(newDoc)
         })
@@ -747,6 +576,57 @@ cancelPatterBtn.addEventListener('click', e => {
     console.log('cancel')
 })
 
+// Twitch Nav Events
+const twitchNavSpan = document.getElementById('twitchNavSpan')
+twitchNavSpan.addEventListener('click', () => {
+    const twitchEventsColorAndPatternSelect = document.getElementById('twitchEventsColorAndPatternSelect')
+    while(twitchEventsColorAndPatternSelect.firstChild){
+        twitchEventsColorAndPatternSelect.removeChild(
+            twitchEventsColorAndPatternSelect.firstChild
+        )
+    }
+    twitchEventsColorAndPatternSelect
+        .appendChild(document.createElement('option'))
+
+    const singleColorOnlyDiv = document.getElementById('singleColorOnlyDiv')
+
+    db.colors.find({}, (err, colors) => {
+        if(colors.length > 0){
+            const colorHeading = document.createElement('option')
+            colorHeading.disabled = true;
+            colorHeading.innerText = `Colors`
+            colorHeading.style.fontWeight = 'Bold'
+            twitchEventsColorAndPatternSelect.appendChild(colorHeading)
+        }
+
+        colors.forEach(color => {
+            const newOption = document.createElement('option')
+            newOption.value = `Color ID: ${color._id}`
+            newOption.innerText = color.name
+            newOption.className = 'color-select-class'
+            twitchEventsColorAndPatternSelect.appendChild(newOption)  
+        })
+    }) 
+
+    db.patterns.find({}, (err, patterns) => {
+        if(patterns.length > 0){
+            const patternsHeading = document.createElement('option')
+            patternsHeading.disabled = true;
+            patternsHeading.innerText = 'Patterns'
+            patternsHeading.style.fontWeight = 'Bold'
+            twitchEventsColorAndPatternSelect.appendChild(patternsHeading)
+        }
+
+        patterns.forEach(pattern => {
+            const newOption = document.createElement('option')
+            newOption.value = `Pattern ID: ${pattern._id}`
+            newOption.innerText = pattern.name
+            newOption.className = 'pattern-select-class'
+            twitchEventsColorAndPatternSelect.appendChild(newOption)
+        })
+    })
+})
+
 const twitchEventTypeSelect = document.getElementById('twitchEventTypeSelect')
 twitchEventTypeSelect.addEventListener('click', () => {
     const twitchAmountNumberLabel = document.getElementById('twitchAmountNumberLabel')
@@ -779,14 +659,38 @@ twitchEventTypeSelect.addEventListener('click', () => {
     }
 })
 
+const twitchEventsColorAndPatternSelect = document.getElementById('twitchEventsColorAndPatternSelect')
+twitchEventsColorAndPatternSelect.addEventListener('click', () => {
+    const singleColorOnlyDiv = document.getElementById('singleColorOnlyDiv')
+    const twitchColorChangeSingleInput = document.getElementById('twitchColorChangeSingleInput')
+    if(/color/i.test(twitchEventsColorAndPatternSelect.value)){
+        singleColorOnlyDiv.style.display = 'flex'
+        twitchColorChangeSingleInput.value = 3
+    }
+    else{
+        singleColorOnlyDiv.style.display = 'none'
+    }
+})
+
 const twitchEventsSubmitBtn = document.getElementById('twitchEventsSubmitBtn')
 twitchEventsSubmitBtn.addEventListener('click', e => {
     e.preventDefault()
 
     const twitchEventTypeSelect = document.getElementById('twitchEventTypeSelect')
+    const event = twitchEventTypeSelect.value.trim()
     const twitchAmountNumberInput = document.getElementById('twitchAmountNumberInput')
-    const twitchEventLightSelect = document.getElementById('twitchEventLightSelect')
+    const amount = twitchAmountNumberInput.value
     const twitchEventsColorAndPatternSelect = document.getElementById('twitchEventsColorAndPatternSelect')
+    const colorSwitch = twitchEventsColorAndPatternSelect.value.split(' ')
+    console.log(colorSwitch[0], colorSwitch[2])
+
+    const newEvent = {
+        event,
+        amount,
+        type:colorSwitch[0],
+        type_id:colorSwitch[2],
+        
+    }
 })
 
 const twitchEventsCancelBtn = document.getElementById('twitchEventsCancelBtn')

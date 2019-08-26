@@ -369,7 +369,7 @@ testLight.queryState().then(res=> {console.log(res)}) */
 /* 
 Max warm white setting: 255
 working Controller functions with current ack options.
-    setPatters
+    setPatterns
     setPower
     turnOn
     turnOff
