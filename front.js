@@ -628,33 +628,8 @@ twitchNavSpan.addEventListener('click', () => {
 const twitchEventTypeSelect = document.getElementById('twitchEventTypeSelect')
 twitchEventTypeSelect.addEventListener('click', () => {
     const twitchAmountNumberLabel = document.getElementById('twitchAmountNumberLabel')
-    switch(twitchEventTypeSelect.value){
-        case'sub':{
-            twitchAmountNumberLabel.innerText = 'Months'
-            break;
-        }
-        case'gift':{
-            twitchAmountNumberLabel.innerText = 'Months'
-            break;
-        }
-        case 'mass gift':{
-            twitchAmountNumberLabel.innerText = 'Number of Subs'
-            break;
-        }
-        case 'bits':{
-            twitchAmountNumberLabel.innerText = 'Amount'
-            break;
-        }
-        case 'host':{
-            twitchAmountNumberLabel.innerText = 'Viewers'
-            break;
-        }
-        case 'raid':{
-            twitchAmountNumberLabel.innerText = 'Viewers'
-            break;
-        }
-        default:
-    }
+    twitchAmountNumberLabel.innerText 
+        = getAmountTypeByEvent(twitchEventTypeSelect.value)
 })
 
 const twitchEventsColorAndPatternSelect = document.getElementById('twitchEventsColorAndPatternSelect')
@@ -679,6 +654,7 @@ twitchEventsSubmitBtn.addEventListener('click', e => {
     const twitchAmountNumberInput = document.getElementById('twitchAmountNumberInput')
     const amount = parseInt(twitchAmountNumberInput.value.toString())
     const twitchEventsColorAndPatternSelect = document.getElementById('twitchEventsColorAndPatternSelect')
+    const type_name = twitchEventsColorAndPatternSelect.childNodes()[this.selectedIndex].innerText
     const colorSwitch = twitchEventsColorAndPatternSelect.value.split(' ')
 
     console.log(amount)
@@ -688,14 +664,40 @@ twitchEventsSubmitBtn.addEventListener('click', e => {
         amount,
         type:colorSwitch[0],
         type_id:colorSwitch[2],
+        type_name,
         delay:(colorSwitch[0] === 'Color')
             ? parseInt(document.getElementById('twitchColorChangeSingleInput').value):0, 
     }
 
-    db.twitchEvents.insert(newEvent, (err, newDB) => {
-        console.log(newDB)
+    db.twitchEvents.insert(newEvent, (err, newDoc) => {
+        makeNewTwitchEvent(newDoc)
     })
 })
+
+let getAmountTypeByEvent = (event) => {
+    switch(event){
+        case'sub':{
+            return 'Months'
+        }
+        case 'gift':{
+            return 'Months'
+        }
+        case 'mass gift':{
+            return 'Number of Subs'
+        }
+        case 'bits':{
+            return 'Amount'
+        }
+        case 'host':{
+            return 'Viewers'
+        }
+        case 'raid':{
+            return 'Viewers'
+        }
+        default:
+            return false;
+    }
+}
 
 const twitchEventsCancelBtn = document.getElementById('twitchEventsCancelBtn')
 twitchEventsCancelBtn.addEventListener('click', e => {
@@ -706,3 +708,47 @@ twitchEventsCancelBtn.addEventListener('click', e => {
     document.getElementById('twitchEventLightSelect').value = ''
     document.getElementById('twitchEventsColorAndPatternSelect').value = ''
 })
+
+db.twitchEvents.find({}, (err, events) => {
+    events.forEach(event => {
+        makeNewTwitchEvent(event)
+    })
+})
+
+const twitchEventsTbody = document.getElementById('twitchEventsTbody')
+let makeNewTwitchEvent = (e) => {
+    const {
+        event,
+        amount,
+        type,
+        type_id,
+        type_name,
+        delay
+    } = e
+
+    const newTR = document.createElement('tr')
+
+    const titleTD = document.createElement('td')
+    titleTD.innerText = event.toUpperCase()
+
+    const amountTD = document.createElement('td')
+    amountTD.innerText = amount
+    amountTD.title = getAmountTypeByEvent(event)
+
+    const namePatternTD = document.createElement('td')
+    namePatternTD.title = type_name
+
+    const buttonsTD = document.createElement('td')
+    const deleteBtn = document.createElement('button')
+    deleteBtn.className = 'btn btn-negative btn-mini'
+    deleteBtn.title = 'Delete Event'
+
+    buttonsTD.appendChild(deleteBtn)
+
+    newTR.appendChild(titleTD)
+    newTR.appendChild(amountTD)
+    newTR.appendChild(namePatternTD)
+    newTR.appendChild(buttonsTD)
+
+    twitchEventsTbody.appendChild(buttonsTD)
+}
