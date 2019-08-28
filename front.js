@@ -52,7 +52,7 @@ let clearAllThirdPaneDiv = () => {
 
 const testBtn = document.getElementById('testBtn')
 testBtn.addEventListener('click', () =>{
-    allOffThenOn()
+    queryAll()
 })
 
 const indiv_light_ul = document.getElementById('indiv-light-ul')
@@ -422,7 +422,7 @@ colorPatternDiv.addEventListener('click', () => {
 
 let isMaxColorPatterns = () => {
     const currentPatterns = document.getElementsByClassName('patterColorDivClass')
-    return currentPatterns.length < 16;
+    return currentPatterns.length < 15;
 }
 
 db.patterns.find({}, (err, patterns) => {
@@ -654,10 +654,9 @@ twitchEventsSubmitBtn.addEventListener('click', e => {
     const twitchAmountNumberInput = document.getElementById('twitchAmountNumberInput')
     const amount = parseInt(twitchAmountNumberInput.value.toString())
     const twitchEventsColorAndPatternSelect = document.getElementById('twitchEventsColorAndPatternSelect')
-    const type_name = twitchEventsColorAndPatternSelect.childNodes()[this.selectedIndex].innerText
+    const type_name = twitchEventsColorAndPatternSelect.childNodes[twitchEventsColorAndPatternSelect.selectedIndex].innerText
+    console.log(type_name)
     const colorSwitch = twitchEventsColorAndPatternSelect.value.split(' ')
-
-    console.log(amount)
 
     const newEvent = {
         event,
@@ -709,7 +708,7 @@ twitchEventsCancelBtn.addEventListener('click', e => {
     document.getElementById('twitchEventsColorAndPatternSelect').value = ''
 })
 
-db.twitchEvents.find({}, (err, events) => {
+db.twitchEvents.find({}).sort({ event:1, amount:1}).exec((err, events) => {
     events.forEach(event => {
         makeNewTwitchEvent(event)
     })
@@ -723,7 +722,8 @@ let makeNewTwitchEvent = (e) => {
         type,
         type_id,
         type_name,
-        delay
+        delay,
+        _id
     } = e
 
     const newTR = document.createElement('tr')
@@ -736,13 +736,44 @@ let makeNewTwitchEvent = (e) => {
     amountTD.title = getAmountTypeByEvent(event)
 
     const namePatternTD = document.createElement('td')
-    namePatternTD.title = type_name
+    namePatternTD.title = type
+    namePatternTD.innerText = `${type_name}${(type === 'Color')? ` - Duration: ${delay}`:''}`
 
     const buttonsTD = document.createElement('td')
+
+    const testBtn = document.createElement('button')
+    testBtn.className = 'btn btn-default btn-mini'
+    testBtn.style.marginRight = '5px'
+    testBtn.title = 'Test Alert'
+    const span = document.createElement('span')
+    span.className = 'icon icon-lamp'
+    testBtn.appendChild(span)
+    testBtn.addEventListener('click', () => {
+        if(type === 'Color'){
+            db.colors.findOne({ _id:type_id }, (err, color) => {
+                playSingleColor(lightsToChange, color.rgb, delay)
+            })
+        }
+        else if(type === 'Pattern'){
+            db.patterns.findOne({ _id:type_id }, (err, pattern) => {
+                playLightPattern(lightsToChange, pattern.colors, pattern.delay)
+            })
+        }
+    })
+
     const deleteBtn = document.createElement('button')
     deleteBtn.className = 'btn btn-negative btn-mini'
     deleteBtn.title = 'Delete Event'
+    deleteBtn.innerText = 'X' 
 
+    deleteBtn.addEventListener('click', () => {
+        db.twitchEvents.remove({ _id:_id }, (err, numRemoved) => {
+            console.log(`Event Removed: ${event}`)
+            newTR.remove()
+        })
+    })
+
+    buttonsTD.appendChild(testBtn)
     buttonsTD.appendChild(deleteBtn)
 
     newTR.appendChild(titleTD)
@@ -750,5 +781,5 @@ let makeNewTwitchEvent = (e) => {
     newTR.appendChild(namePatternTD)
     newTR.appendChild(buttonsTD)
 
-    twitchEventsTbody.appendChild(buttonsTD)
+    twitchEventsTbody.appendChild(newTR)
 }

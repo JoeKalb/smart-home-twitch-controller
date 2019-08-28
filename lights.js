@@ -319,12 +319,26 @@ function interval_function(){
 let playLightPattern = (lights, rgbArr, delay) => {
     const totalIntervalCalls = rgbArr.length * 2 - 1;
     let count = lights.reduce((lights, cur) => ({ ...lights, [cur]: 0 }), {})
+    let baseColor = lights.reduce((lights, cur) => ({ ...lights, [cur]: {} }), {})
 
-    function interval_function(){
-        if(count[this._address] === totalIntervalCalls){
+    async function interval_function(){
+        if(count[this._address] > totalIntervalCalls){
             return this.stop()
         }
+        else if(count[this._address] === totalIntervalCalls){
+            const { red, green, blue } = baseColor[this._address]
+            ++count[this._address]
+            return this.setColor(red, green, blue)
+        }
         else if(count[this._address] % 2 === 0){
+            // only check one first pass and during even numbers
+            if(count[this._address] === 0){
+                new Control(this._address).queryState().then(async (query) => {
+                    console.log(query) 
+                    baseColor[this._address] = await query.color;
+                }).catch(err => { console.log(err) })
+            }
+
             const tempCount = count[this._address] / 2
             const { r,g,b } = rgbArr[tempCount]
             ++count[this._address]
@@ -340,9 +354,52 @@ let playLightPattern = (lights, rgbArr, delay) => {
     for(let i = 0; i < lightCount; ++i){
         new Control(lights[i]).startEffectMode().then(effects => {
             effects.start(interval_function)
-        }).catch(err => {
-            console.log(err)
-        })
+        }).catch(err => { console.log(err) })
+        new Control(lights[i]).queryState().then(query => {
+            console.log(query) 
+            baseColor[this._address] = query.color;
+        }).catch(err => { console.log(err) })
+    }
+}
+
+let playSingleColor = async (lights, color, delay) => {
+    let count = lights.reduce((lights, cur) => ({ ...lights, [cur]: 0 }), {})
+    let baseColor = lights.reduce((lights, cur) => ({ ...lights, [cur]: {} }), {})
+
+    async function interval_function(){
+        switch(count[this._address]){
+            case 0:{
+                new Control(this._address).queryState().then(async (query) => {
+                    baseColor[this._address] = await query.color;
+                    console.log(baseColor[this._address])
+                }).catch(err => { console.log(err) }) 
+                ++count[this._address]
+                return this.setColor(color.r, color.g, color.b)
+            }
+            case 1:{
+                ++count[this._address]
+                return this.delay(delay * 1000)
+            }
+            case 2:{
+                ++count[this._address]
+                const { red, green, blue } = baseColor[this._address]
+                return this.setColor(
+                    (red)?red:255, 
+                    (green)?green:255, 
+                    (blue)?blue:255) 
+            }
+            default:{
+                console.log(`Completed Single Color: ${this._address}`)
+                return this.stop()
+            }
+        }
+    }
+
+    const lightCount = lights.length
+    for(let i = 0; i < lightCount; ++i){
+        new Control(lights[i]).startEffectMode().then(effects => {
+            effects.start(interval_function)
+        }).catch(err => { console.log(err) })
     }
 }
 

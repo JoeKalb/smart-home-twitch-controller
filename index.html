@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="node_modules/photonkit/dist/css/photon.css">
     <link rel="stylesheet" href="styles.css">
     <script src="node_modules/@jaames/iro/dist/iro.min.js"></script>
+    <script src="node_modules/color-convert/conversions.js"></script>
     <title>Lights and Sounds!</title>
 </head>
 <body>
@@ -95,7 +96,7 @@
                         <div id="custom-patterns-div">
                             <div id="pattern-customization-heading" id="list-group-header">
                                 <strong>Custom Patterns</strong>
-                                <button id="addPatternBtn" class="btn btn-default pull-right" title="Add New Light Pattern"><span class="icon icon-plus"></span></button>
+                                <button id="addPatternBtn" class="btn btn-default pull-right" title="Add New Light Pattern (Max: 15)"><span class="icon icon-plus"></span></button>
                             </div>
                             <div id='addPatternFormDiv' style="display: none;">
                                 <form id="addPatternForm">
@@ -166,7 +167,7 @@
                         </div>
                         <div id="twitchEventsTableDiv">
                             <div id="tabel-heading">
-                                <Strong>All Saved Events</Strong>
+                                <Strong style="margin-left: 5px;">All Saved Events</Strong>
                             </div>
                             <table id="twitchEventsTable">
                                 <thead>
@@ -176,14 +177,6 @@
                                     <th>Controls</th>
                                 </thead>
                                 <tbody id="twitchEventsTbody">
-                                    <tr>
-                                        <td>Sub</td>
-                                        <td title="Months">10</td>
-                                        <td>Pattern Name</td>
-                                        <td>
-                                            <button class="btn btn-negative btn-mini" title="Delete Event">X</button>
-                                        </td>
-                                    </tr>
                                     <!-- Will Render From Database -->
                                 </tbody>
                             </table>
