@@ -19,6 +19,6 @@
     "tmi.js": "^1.4.5"
   },
   "devDependencies": {
-    "electron": "^6.0.0"
+    "electron": "^18.3.7"
   }
 }
